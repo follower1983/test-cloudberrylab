@@ -20,13 +20,13 @@
                             <div class="calculator__title">CALCULATE YOUR SAVINGS</div>
                             <!-- input -->
                             <label class="calculator__title-inputs" for="workstations">WORKSTATIONS:</label>
-                            <input type="number" id="workstations" v-model.number="workstations" value="0" min="0">
+                            <input type="number" id="workstations" v-model.number="workstations" value="0" min="0" max="999">
                             <!-- input -->
                             <label class="calculator__title-inputs" for="servers">SERVERS:</label>
-                            <input type="number" id="servers" v-model.number="servers" value="0" min="0">
+                            <input type="number" id="servers" v-model.number="servers" value="0" min="0" max="999">
                             <!-- input -->
                             <label class="calculator__title-inputs calculator__storage-title" for="workstations">Storage, GB:</label>
-                            <input type="text" id="storage" value="5000" class="calculator__storage-value" min="0">
+                            <input type="text" id="storage" :value="totalStorage" class="calculator__storage-value" min="0">
 
                             <div class="calculator__question">
                                 Do you want to discuss your savings
@@ -56,10 +56,10 @@
                                 </div>
                                 <div class="calculator__diagram-column calculator__diagram-column-2">
                                     <div class="calculator__diagram-save calculator__diagram-save-2">
-                                        SAVE<div class="calculator__diagram-save-value">$2,141</div>
+                                        SAVE<div class="calculator__diagram-save-value">${{ saveAmazon }}</div>
                                     </div>
                                     <div class="calculator__diagram-price calculator__diagram-price-rate-2">
-                                        <div class="calculator__diagram-price-value">$3,359</div> per year
+                                        <div class="calculator__diagram-price-value">${{ sumAmazon }}</div> per year
                                     </div>
                                     <div class="calculator__diagram-logo">
                                         <div class="calculator__diagram-icon">
@@ -72,10 +72,10 @@
                                 <div class="calculator__diagram-column calculator__diagram-column-3">
                                     <div class="calculator__diagram-save calculator__diagram-save-3">
                                         SAVE
-                                        <div class="calculator__diagram-save-value">$3,101</div>
+                                        <div class="calculator__diagram-save-value">${{ saveBackblaze }}</div>
                                     </div>
                                     <div class="calculator__diagram-price calculator__diagram-price-rate-3">
-                                        <div class="calculator__diagram-price-value">$2,399</div> per year
+                                        <div class="calculator__diagram-price-value">${{ sumBackblaze }}</div> per year
                                     </div>
                                     <div class="calculator__diagram-logo">
                                         <div class="calculator__diagram-icon">
@@ -99,11 +99,7 @@ export default {
     data () {
         return {
             servers: 0,
-            workstations: 0,
-            save: 0,
-            rate1: 'core',
-            rate2: 'power',
-            rate3: 'ultimate'
+            workstations: 0
         }
     },
     methods: {
@@ -112,10 +108,62 @@ export default {
         }
     },
     computed: {
+        total(){
+            let cost;
+            let factor;
+            if(this.workstations > 25 || this.servers > 2){
+                factor = 0.1462;
+                console.log('ultimate');
+            }else{
+                if(this.workstations < 26 && this.servers > 0 && this.servers < 3){
+                    factor = 0.336571;
+                    console.log('power');
+                }else{
+                    factor = 1
+                    console.log('core');
+                }
+            }
+            return true
+        },
         sum(){
             let cost;
-            cost = this.workstations*11 + this.servers;
-            return cost;
+            cost = this.workstations*33.64 + this.servers*312;
+            return cost.toFixed(2);
+        },
+        sumAmazon(){
+            let cost;
+            cost = this.workstations*33.64 + this.servers*312;
+            cost = cost*0.336571;
+            return cost.toFixed(2);
+        },
+        sumBackblaze(){
+            let cost;
+            cost = this.workstations*33.64 + this.servers*312;
+            cost = cost*0.1462;
+            return cost.toFixed(2);
+        },
+
+        saveAmazon(){
+            let save;
+            let cost;
+            let tempCost;
+            cost = this.workstations*33.64 + this.servers*312;
+            tempCost = cost*0.336571;
+            save = cost - tempCost;
+            return save.toFixed(2);
+        },
+        saveBackblaze(){
+            let save;
+            let cost;
+            let tempCost;
+            cost = this.workstations*33.64 + this.servers*312;
+            tempCost = cost*0.1462;
+            save = cost - tempCost;
+            return save.toFixed(2);
+        },
+        totalStorage(){
+            let storage;
+            return storage = this.workstations*500 + this.servers*1000
         }
     },
     watch: {
