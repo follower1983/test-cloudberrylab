@@ -105,61 +105,55 @@ export default {
     methods: {
         getLog(){
             console.log ( '%c == TopBlock has been mounted ==', 'color: cyan;', '' );
+        },
+        costCheck(factor){
+          let cost;
+          cost = this.workstations*33.64 + this.servers*312;
+          cost = cost*factor;
+          return cost.toFixed(2);
+        },
+        saveCheck(factor){
+          let save;
+          let cost;
+          let tempCost;
+          cost = this.workstations*33.64 + this.servers*312;
+          tempCost = cost*factor;
+          save = cost - tempCost;
+          return save.toFixed(2);
+        },
+      rateChack(){
+        let rate;
+        if(this.workstations > 25 || this.servers > 2){
+          rate = 'ultimate';
+        }else{
+          if(this.workstations < 26 && this.servers > 0 && this.servers < 3){
+            rate = 'power';
+          }else{
+            rate = 'Rate is core';
+          }
         }
+        console.log('%c ' + rate , 'color:lime;');
+      }
     },
     computed: {
-        total(){
-            let cost;
-            let factor;
-            if(this.workstations > 25 || this.servers > 2){
-                factor = 0.1462;
-                console.log('ultimate');
-            }else{
-                if(this.workstations < 26 && this.servers > 0 && this.servers < 3){
-                    factor = 0.336571;
-                    console.log('power');
-                }else{
-                    factor = 1
-                    console.log('core');
-                }
-            }
-            return true
-        },
         sum(){
-            let cost;
-            cost = this.workstations*33.64 + this.servers*312;
-            return cost.toFixed(2);
+            this.rateChack();
+            return this.costCheck(1);
         },
         sumAmazon(){
-            let cost;
-            cost = this.workstations*33.64 + this.servers*312;
-            cost = cost*0.336571;
-            return cost.toFixed(2);
+            this.rateChack();
+            return this.costCheck(0.336571);
         },
         sumBackblaze(){
-            let cost;
-            cost = this.workstations*33.64 + this.servers*312;
-            cost = cost*0.1462;
-            return cost.toFixed(2);
+            this.rateChack();
+            return this.costCheck(0.1462);
         },
 
         saveAmazon(){
-            let save;
-            let cost;
-            let tempCost;
-            cost = this.workstations*33.64 + this.servers*312;
-            tempCost = cost*0.336571;
-            save = cost - tempCost;
-            return save.toFixed(2);
+            return this.saveCheck(0.336571)
         },
         saveBackblaze(){
-            let save;
-            let cost;
-            let tempCost;
-            cost = this.workstations*33.64 + this.servers*312;
-            tempCost = cost*0.1462;
-            save = cost - tempCost;
-            return save.toFixed(2);
+            return this.saveCheck(0.1462)
         },
         totalStorage(){
             let storage;
