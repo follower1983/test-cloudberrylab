@@ -66,5 +66,20 @@ export default {
         line-height: 120%;
         margin-top: 10px;
     }
-
+    @media(max-width:991px){
+      .title{
+        font-size: 44px;
+      }
+      .sub-title{
+        font-size: 26px;
+      }
+    }
+    @media(max-width:767px){
+      .title{
+        font-size: 36px;
+      }
+      .sub-title{
+        font-size: 20px;
+      }
+    }
 </style>

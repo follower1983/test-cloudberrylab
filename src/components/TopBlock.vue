@@ -394,6 +394,9 @@ export default {
         }
     }
   @media(max-width: 991px){
+    .title{
+      font-size: 44px;
+    }
     .calculator{
       &__right{
         padding-left: 62px;
@@ -414,6 +417,9 @@ export default {
     }
   }
   @media(max-width:767px){
+    .title{
+      font-size: 36px;
+    }
     .logo{
       right:auto;
      }
