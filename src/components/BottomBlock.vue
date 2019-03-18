@@ -94,4 +94,14 @@ export default {
             }
         }
     }
+  @media(max-width: 991px){
+      .bottom-block{
+        &__icons-item:first-child{
+          margin-bottom: 40px;
+        }
+        &__icons{
+          padding:20px 44px;
+        }
+      }
+  }
 </style>

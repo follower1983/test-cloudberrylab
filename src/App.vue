@@ -53,6 +53,7 @@ export default {
       color: #545454;
   }
   body{
+    min-width: 360px;
     font-family:Roboto, sans-serif;
   }
   h1, h2 {
@@ -68,6 +69,9 @@ export default {
         color: #42b983;
       }
     }
+  }
+  img{
+    max-width:100%;
   }
   hr{
     background-color: #C4C4C4;

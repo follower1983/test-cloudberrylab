@@ -20,10 +20,10 @@
                             <div class="calculator__title">CALCULATE YOUR SAVINGS</div>
                             <!-- input -->
                             <label class="calculator__title-inputs" for="workstations">WORKSTATIONS:</label>
-                            <input type="number" id="workstations" v-model.number="workstations" value="0" min="0" max="999">
+                            <input type="number" id="workstations" v-model.number="workstations" value="0" min="0" max="999" @click="rateCheck">
                             <!-- input -->
                             <label class="calculator__title-inputs" for="servers">SERVERS:</label>
-                            <input type="number" id="servers" v-model.number="servers" value="0" min="0" max="999">
+                            <input type="number" id="servers" v-model.number="servers" value="0" min="0" max="999" @click="rateCheck">
                             <!-- input -->
                             <label class="calculator__title-inputs calculator__storage-title" for="workstations">Storage, GB:</label>
                             <input type="text" id="storage" :value="totalStorage" class="calculator__storage-value" min="0">
@@ -104,7 +104,7 @@ export default {
     },
     methods: {
         getLog(){
-            console.log ( '%c == TopBlock has been mounted ==', 'color: cyan;', '' );
+            console.log ( '%c == Calculator has been mounted ==', 'color: cyan;', '' );
         },
         costCheck(factor){
           let cost;
@@ -121,31 +121,32 @@ export default {
           save = cost - tempCost;
           return save.toFixed(2);
         },
-      rateChack(){
-        let rate;
-        if(this.workstations > 25 || this.servers > 2){
-          rate = 'ultimate';
-        }else{
-          if(this.workstations < 26 && this.servers > 0 && this.servers < 3){
-            rate = 'power';
+        rateCheck(){
+          let rate;
+          if(this.workstations > 25 || this.servers > 2){
+            rate = 'ultimate';
+            console.log('%c Rate is ' + rate , 'color:red;');
           }else{
-            rate = 'Rate is core';
+            if(this.workstations < 26 && this.servers > 0 && this.servers < 3){
+              rate = 'power';
+              console.log('%c Rate is ' + rate , 'color:yellow;');
+            }else{
+              rate = 'core';
+              console.log('%c Rate is ' + rate , 'color:lime;');
+            }
           }
+          console.log(this)
+          return rate;
         }
-        console.log('%c ' + rate , 'color:lime;');
-      }
     },
     computed: {
         sum(){
-            this.rateChack();
             return this.costCheck(1);
         },
         sumAmazon(){
-            this.rateChack();
             return this.costCheck(0.336571);
         },
         sumBackblaze(){
-            this.rateChack();
             return this.costCheck(0.1462);
         },
 
@@ -156,8 +157,22 @@ export default {
             return this.saveCheck(0.1462)
         },
         totalStorage(){
+            // let storage;
+            // return storage = this.workstations*500 + this.servers*1000
+
             let storage;
-            return storage = this.workstations*500 + this.servers*1000
+            let storageCore = 10000;
+            let storagePower = 5120;
+            let storageUltimate = 45000;
+            storage = this.workstations*500 + this.servers*1000
+//            console.log(storage)
+//            if(storage > storageCore){
+//              storage = this.workstations*9.799
+//              console.log('====')
+//              console.log(storage)
+//              console.log('====')
+//            }
+            return storage;
         }
     },
     watch: {
@@ -173,7 +188,8 @@ export default {
         padding-top: 50px;
         background-image: url(../assets/bg@1x.jpg);
         background-position: center center;
-        height:982px;
+        // height:982px;
+        padding-bottom: 82px;
         margin-bottom: 92px;
         &__header{
             justify-content: center;
@@ -377,4 +393,44 @@ export default {
             }
         }
     }
+  @media(max-width: 991px){
+    .calculator{
+      &__right{
+        padding-left: 62px;
+      }
+      &__diagram-block{
+        justify-content: space-between;
+      }
+      &__diagram-column-1{
+        margin-left: 0;
+      }
+      &__diagram-column-2{
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+      &__diagram-column-3{
+        margin-right: 0;
+      }
+    }
+  }
+  @media(max-width:767px){
+    .logo{
+      right:auto;
+     }
+    .calculator{
+      height:auto;
+      flex-direction: column;
+      &__right{
+        margin-top: 60px;
+        padding-left: 0px;
+        width: 100%;
+        padding-bottom: 60px;
+      }
+    }
+  }
+  @media(max-width:480px){
+    .calculator{
+      padding-bottom: 80px;
+    }
+  }
 </style>

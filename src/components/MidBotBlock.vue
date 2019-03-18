@@ -26,7 +26,9 @@ export default {
 </script>
 <style lang="scss" scoped>
     .midbot-block{
-        height: 332px;
+        // height: 332px;
+        padding-top: 70px;
+        padding-bottom: 70px;
         background-image: url(../assets/bottom_bg.jpg);
         background-position: center center;
         margin-bottom: 74px;
