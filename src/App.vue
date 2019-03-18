@@ -74,7 +74,7 @@ export default {
     height: 1px;
     outline:none;
     border:none;
-    margin: 16px 0;
+    margin: 16px 0 34px;
   }
   .green-text{
     color: #85FCB6;
