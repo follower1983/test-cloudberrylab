@@ -26,7 +26,7 @@
                             <input type="number" id="servers" v-model.number="servers" value="0" min="0" max="999" @click="rateCheck">
                             <!-- input -->
                             <label class="calculator__title-inputs calculator__storage-title" for="workstations">Storage, GB:</label>
-                            <input type="text" id="storage" :value="totalStorage" class="calculator__storage-value" min="0">
+                            <input type="text" id="storage" :value="totalStorage.storage" class="calculator__storage-value" min="0">
 
                             <div class="calculator__question">
                                 Do you want to discuss your savings
@@ -99,7 +99,8 @@ export default {
     data () {
         return {
             servers: 0,
-            workstations: 0
+            workstations: 0,
+            addStorage: 0
         }
     },
     methods: {
@@ -135,7 +136,6 @@ export default {
               console.log('%c Rate is ' + rate , 'color:lime;');
             }
           }
-          console.log(this)
           return rate;
         }
     },
@@ -159,20 +159,25 @@ export default {
         totalStorage(){
             // let storage;
             // return storage = this.workstations*500 + this.servers*1000
+            let rate = this.rateCheck();
 
             let storage;
+            let addStorage;
             let storageCore = 10000;
             let storagePower = 5120;
             let storageUltimate = 45000;
             storage = this.workstations*500 + this.servers*1000
-//            console.log(storage)
-//            if(storage > storageCore){
-//              storage = this.workstations*9.799
-//              console.log('====')
-//              console.log(storage)
-//              console.log('====')
-//            }
-            return storage;
+            console.log('%c ' + rate , 'color:orange;');
+            if (rate == 'ultimate' && storage > storageUltimate){
+                addStorage  = 44496;
+            }
+            if(rate == 'power' && storage > storagePower){
+                addStorage = 4700;
+            }
+            if(rate == 'core' && storage > storageCore){
+                addStorage = 9799
+            }
+            return {storage, addStorage};
         }
     },
     watch: {
@@ -436,7 +441,7 @@ export default {
   }
   @media(max-width:480px){
     .calculator{
-      padding-bottom: 80px;
+      padding-bottom: 100px;
     }
   }
 </style>
