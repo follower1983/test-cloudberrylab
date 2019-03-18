@@ -99,8 +99,7 @@ export default {
     data () {
         return {
             servers: 0,
-            workstations: 0,
-            addStorage: 0
+            workstations: 0
         }
     },
     methods: {
@@ -111,6 +110,7 @@ export default {
           let cost;
           cost = this.workstations*33.64 + this.servers*312;
           cost = cost*factor;
+          cost = cost + this.totalStorage.addStorage;
           return cost.toFixed(2);
         },
         saveCheck(factor){
@@ -126,15 +126,12 @@ export default {
           let rate;
           if(this.workstations > 25 || this.servers > 2){
             rate = 'ultimate';
-            console.log('%c Rate is ' + rate , 'color:red;');
           }else{
             if(this.workstations < 26 && this.servers > 0 && this.servers < 3){
-              rate = 'power';
-              console.log('%c Rate is ' + rate , 'color:yellow;');
-            }else{
-              rate = 'core';
-              console.log('%c Rate is ' + rate , 'color:lime;');
-            }
+                rate = 'power';
+             }else{
+                rate = 'core';
+             }
           }
           return rate;
         }
@@ -157,17 +154,22 @@ export default {
             return this.saveCheck(0.1462)
         },
         totalStorage(){
-            // let storage;
-            // return storage = this.workstations*500 + this.servers*1000
             let rate = this.rateCheck();
-
-            let storage;
-            let addStorage;
+            // test rate logging begin
+            if(rate == 'ultimate'){
+                console.log('%c Rate is ' + rate , 'color:red;');
+            }else if(rate == 'power'){
+                console.log('%c Rate is ' + rate , 'color:yellow;');
+            }else{
+                console.log('%c Rate is ' + rate , 'color:lime;');
+            }
+            // test rate logging end
+            let storage = 0;
+            let addStorage = 0;
             let storageCore = 10000;
             let storagePower = 5120;
             let storageUltimate = 45000;
             storage = this.workstations*500 + this.servers*1000
-            console.log('%c ' + rate , 'color:orange;');
             if (rate == 'ultimate' && storage > storageUltimate){
                 addStorage  = 44496;
             }
